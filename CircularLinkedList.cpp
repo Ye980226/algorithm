@@ -94,3 +94,20 @@ void DeleteLastNodeFromCLL(struct CLLNode **head)
     free(current);
     return;
 }
+void DeleteFrontNodeFromCLL(struct CLLNode **head)
+{
+    struct CLLNode *temp = *head;
+    struct CLLNode *current = *head;
+    if (*head == NULL)
+    {
+        printf("List Empty");
+        return;
+    }
+    while (current->next != *head)
+        current = current->next;
+    current->next = temp->next;
+    *head = temp->next;
+    free(temp);
+    return;
+}
+//Circular Linked lists are used in managing the computing resources of a computer.We can use circular lists for implementing stacks and queues.
