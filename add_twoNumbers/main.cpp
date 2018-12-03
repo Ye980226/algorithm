@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <c++/3.4.5/iostream>
 
 using namespace std;
 struct ListNode
@@ -69,7 +68,7 @@ void showList(ListNode *L)
 {
     while (L)
     {
-        printf("%d\n", L->val);
+        printf("%d\n",L->val);
         L = L->next;
     }
 }
