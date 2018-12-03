@@ -14,55 +14,40 @@ class Solution
   public:
     ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
     {
-        long *a = ListTolong(l1, sizeof(l1) / sizeof(*l1));
-        long *b = ListTolong(l2, sizeof(l2) / sizeof(*l2));
-        // printf("a:%d\n", a);
-        // printf("b:%d\n", b);
-
-        return longToList(a, sizeof(a) / sizeof(*a), b, sizeof(b) / sizeof(*b));
-    }
-    long *ListTolong(ListNode *l1, long size)
-    {
-        ListNode *p = l1;
-        // long result = 0;
-        long i = 0;
-        long *result = (long *)malloc(sizeof(long) * size);
-        while (i < size)
-        {
-            printf("p->val:%d\n", p->val);
-            // result += i * p->val;
-            // i = i * 10;
-            result[i] = p->val;
-            p = p->next;
-            i++;
-        }
-        return result;
-    }
-    ListNode *longToList(long *a, long size_a, long *b, long size_b)
-    {
         ListNode *head;
-        ListNode *q = new ListNode((a[0] + b[0]) % 10);
+        ListNode *q = new ListNode((l1->val + l2->val) % 10);
+        l1 = l1->next;
+        l2 = l2->next;
         head = q;
-        long i = i;
-        for (; i < size_a || i < size_b; i++)
+        static int val = (l1->val + l2->val) / 10;
+        for (; l1 || l2;)
         {
-            if (i < size_a && i < size_b)
+            if (l1 && l2)
             {
-                q->next = new ListNode(a[i] + b[i] + (a[i - 1] + b[i - 1]) / 10);
+                q->next = new ListNode((l1->val + l2->val + val) % 10);
+                val = (l1->val + l2->val + val) / 10;
                 q = q->next;
-                printf("%d", q->val);
+                printf("%d\n", q->val);
+                l1 = l1->next;
+                l2 = l2->next;
             }
-            else if (i < size_a)
+            else if (l1)
             {
-                q->next = new ListNode(a[i]);
+                q->next = new ListNode((l1->val + val) % 10);
+                val = (l1->val + val) / 10;
                 q = q->next;
-                printf("%d", q->val);
+                printf("%d\n", q->val);
+                val = 0;
+                l1 = l1->next;
             }
-            else if (i < size_b)
+            else if (l2)
             {
-                q->next = new ListNode(b[i]);
+                q->next = new ListNode((l2->val + val) % 10);
+                val = (l2->val + val) / 10;
                 q = q->next;
-                printf("%d", q->val);
+                printf("%d\n", q->val);
+                val = 0;
+                l2 = l2->next;
             }
             else
                 return head;
@@ -95,8 +80,8 @@ int main()
     // printf("%d", sizeof(array2));
     ListNode *l1 = initList(array1, sizeof(array1) / sizeof(*array1));
     ListNode *l2 = initList(array2, sizeof(array2) / sizeof(*array2));
-    showList(l1);
-    showList(l2);
+    // showList(l1);
+    // showList(l2);
     Solution s = Solution();
     ListNode *L = s.addTwoNumbers(l1, l2);
     showList(L);
