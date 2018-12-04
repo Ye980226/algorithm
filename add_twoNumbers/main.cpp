@@ -1,6 +1,4 @@
-#include <stdio.h>
-
-using namespace std;
+#include<stdio.h>
 struct ListNode
 {
     long val;
@@ -13,12 +11,14 @@ class Solution
   public:
     ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
     {
-        ListNode *head;
-        ListNode *q = new ListNode((l1->val + l2->val) % 10);
+
+        printf("l1->val:%ld,l2->val:%ld", l1->val, l2->val);
+        ListNode *head = new ListNode((l1->val + l2->val) % 10);
+        long val = (l1->val + l2->val) / 10;
         l1 = l1->next;
         l2 = l2->next;
-        head = q;
-        static int val = (l1->val + l2->val) / 10;
+        ListNode *q = head;
+
         for (; l1 || l2;)
         {
             if (l1 && l2)
@@ -36,7 +36,7 @@ class Solution
                 val = (l1->val + val) / 10;
                 q = q->next;
                 printf("%d\n", q->val);
-                val = 0;
+
                 l1 = l1->next;
             }
             else if (l2)
@@ -45,14 +45,19 @@ class Solution
                 val = (l2->val + val) / 10;
                 q = q->next;
                 printf("%d\n", q->val);
-                val = 0;
                 l2 = l2->next;
             }
-            else
-                return head;
         }
+
+        if ((l1 == NULL || l2 == NULL) && val == 1)
+        {
+            q->next = new ListNode(1);
+            q = q->next;
+        }
+        return head;
     }
 };
+
 ListNode *initList(long *array, int size)
 {
     ListNode *head = new ListNode(array[0]);
@@ -68,7 +73,7 @@ void showList(ListNode *L)
 {
     while (L)
     {
-        printf("%d\n",L->val);
+        printf("%ld\n", L->val);
         L = L->next;
     }
 }
